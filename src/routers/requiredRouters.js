@@ -3,7 +3,7 @@ const {date} = require('../middleware/methods')
 
 const router = new express.Router();
 
-router.get('/api/:date?', async (req, res) => {
+router.get('/:date?', async (req, res) => {
     
     if (!req.params.date) {
         const date = new Date().toUTCString()
