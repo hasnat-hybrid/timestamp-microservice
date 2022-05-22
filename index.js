@@ -3,7 +3,10 @@
 
 // init project
 var express = require('express');
+const routers = require('./src/routers/requiredRouters')
 var app = express();
+app.use(express.json());
+app.use(routers)
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
@@ -28,5 +31,5 @@ app.get("/api/hello", function (req, res) {
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log('Your app is listening on port: ' + listener.address().port);
 });
