@@ -1,17 +1,22 @@
 const express = require('express');
-const {valid, dateUTC} = require('../middleware/methods')
+const {date} = require('../middleware/methods')
 
 const router = new express.Router();
 
-router.get('/api/1451001600000', async (req, res) => {
+router.get('/api/:date', async (req, res) => {
     
-    res.status(200).send({
-        unix: 1451001600000,
-        utc: 'Fri, 25 Dec 2015 00:00:00 GMT'
-    })
-})
+    if (!isNaN(req.params.date)) {
+        return res.json({
+            unix: parseInt(req.params.date),
+            utc: date(parseInt(req.params.date)).toUTCString()
+        })
+    }
 
-router.get('/api/:date?', async (req, res) => {
+    else if (date(req.params.date) == 'Invalid Date') {
+        return res.json({
+            error : "Invalid Date"
+        })
+    }
 
     if (!req.params.date) {
         const date = new Date().toUTCString()
@@ -20,15 +25,53 @@ router.get('/api/:date?', async (req, res) => {
             utc: date
         })
     }
-
-    if (!valid(req.params.date)) {
-        return res.status(400).json({ error : "Invalid Date2" })
+    
+    else if (req.query.type == 'unix') {
+        return res.json({
+            unix: Math.floor(date(req.params.date).getTime() / 1000)
+        })
+    }
+    else if (req.query.type == 'utc') {
+        return res.json({
+            utc: date(req.params.date).toUTCString()
+        })
     }
 
     res.json({
-        unix: parseInt(req.params.date),
-        utc: dateUTC(req.params.date)
+        unix: Math.floor(date(req.params.date).getTime() / 1000),
+        utc: date(req.params.date).toUTCString()
     })
+    
 })
+
+
+router.get('/api/', async (req, res) => {
+    
+    const date = new Date().toUTCString()
+        return res.json({
+            unix: Date.now(),
+            utc: date
+        })
+})
+
+// router.get('/api/:date?', async (req, res) => {
+
+    // if (!req.params.date) {
+    //     const date = new Date().toUTCString()
+    //     return res.json({
+    //         unix: Date.now(),
+    //         utc: date
+    //     })
+    // }
+
+//     if (!valid(req.params.date)) {
+//         return res.status(400).json({ error : "Invalid Date2" })
+//     }
+
+//     res.json({
+//         unix: parseInt(req.params.date),
+//         utc: dateUTC(req.params.date)
+//     })
+// })
 
 module.exports = router

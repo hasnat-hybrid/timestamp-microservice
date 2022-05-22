@@ -1,7 +1,7 @@
 const validator = require('validator');
 
-const dateUTC = (unix) => {
-    return new Date(parseInt(unix)).toUTCString()
+const date = (date) => {
+    return new Date(date)
 }
 
 const valid = (num) => {
@@ -11,4 +11,4 @@ const valid = (num) => {
     return false;
 }
 
-module.exports = {valid, dateUTC}
+module.exports = {valid, date}
