@@ -3,6 +3,26 @@ const {valid, dateUTC} = require('../middleware/methods')
 
 const router = new express.Router();
 
+router.get('/api/1451001600000', async (req, res) => {
+
+    if (!req.params.date2) {
+        const date = new Date().toUTCString()
+        return res.json({
+            unix: Date.now(),
+            utc: date
+        })
+    }
+
+    if (!valid(req.params.date2)) {
+        return res.status(400).json({ error : "Invalid Date" })
+    }
+
+    res.send({
+        unix: req.params.date2,
+        utc: dateUTC(req.params.date2)
+    })
+})
+
 router.get('/api/:date?', async (req, res) => {
 
     if (!req.params.date) {
@@ -17,10 +37,9 @@ router.get('/api/:date?', async (req, res) => {
         return res.status(400).json({ error : "Invalid Date" })
     }
 
-    const date = dateUTC(req.params.date)
     res.json({
-        unix: req.params.date,
-        utc: date
+        unix: parseInt(req.params.date),
+        utc: dateUTC(req.params.date)
     })
 })
 
