@@ -5,6 +5,14 @@ const router = new express.Router();
 
 router.get('/api/:date?', async (req, res) => {
     
+    if (!req.params.date) {
+        const date = new Date().toUTCString()
+        return res.json({
+            unix: Date.now(),
+            utc: date
+        })
+    }
+
     if (!isNaN(req.params.date)) {
         return res.json({
             unix: parseInt(req.params.date),
@@ -18,13 +26,6 @@ router.get('/api/:date?', async (req, res) => {
         })
     }
 
-    if (!req.params.date) {
-        const date = new Date().toUTCString()
-        return res.json({
-            unix: Date.now(),
-            utc: date
-        })
-    }
     
     else if (req.query.type == 'unix') {
         return res.json({
@@ -45,14 +46,14 @@ router.get('/api/:date?', async (req, res) => {
 })
 
 
-router.get('/api/', async (req, res) => {
+// router.get('/api/', async (req, res) => {
     
-    const date = new Date().toUTCString()
-        return res.json({
-            unix: Date.now(),
-            utc: date
-        })
-})
+//     const date = new Date().toUTCString()
+//         return res.json({
+//             unix: Date.now(),
+//             utc: date
+//         })
+// })
 
 // router.get('/api/:date?', async (req, res) => {
 
