@@ -6,9 +6,6 @@ var express = require('express');
 const routers = require('./src/routers/requiredRouters')
 var app = express();
 
-app.disable('etag');
-app.use(express.json());
-app.use(routers)
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
@@ -28,6 +25,10 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
+
+app.disable('etag');
+app.use(express.json());
+app.use(routers)
 
 
 
