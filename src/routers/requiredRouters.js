@@ -41,7 +41,7 @@ router.get('/api/:date?', async (req, res) => {
     }
 
     res.json({
-        unix: Math.floor(date(req.params.date).getTime() / 1000),
+        unix: date(req.params.date).getTime(),
         utc: date(req.params.date).toUTCString()
     })
     
