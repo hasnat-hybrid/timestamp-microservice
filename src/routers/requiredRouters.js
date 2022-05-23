@@ -5,6 +5,8 @@ const router = new express.Router();
 
 router.get('/:date?', async (req, res) => {
     
+    res.set({ 'Content-Type': 'application/json' })
+
     if (!req.params.date) {
         const date = new Date().toUTCString()
         return res.json({
@@ -21,9 +23,9 @@ router.get('/:date?', async (req, res) => {
     }
 
     else if (date(req.params.date) == 'Invalid Date') {
-        return res.json({
+        return res.send(JSON.stringify({
             error : "Invalid Date"
-        })
+        }))
     }
 
     
