@@ -3,7 +3,7 @@ const {date} = require('../middleware/methods')
 
 const router = new express.Router();
 
-router.get('/:date?', async (req, res) => {
+router.get('api/:date?', async (req, res) => {
     
     res.set({ 'Content-Type': 'application/json' })
 
