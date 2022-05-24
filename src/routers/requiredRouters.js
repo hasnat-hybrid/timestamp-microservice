@@ -21,9 +21,9 @@ router.get('/api/:date?', async (req, res) => {
     }
 
     else if (date(req.params.date) == 'Invalid Date') {
-        return res.send(JSON.stringify({
+        return res.json({
             error : "Invalid Date"
-        }))
+        })
     }
 
     
